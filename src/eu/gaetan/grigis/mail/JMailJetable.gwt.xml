@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module rename-to='jmailjetable'>
-  <!-- Inherit the core Web Toolkit stuff.                        -->
-  <inherits name='com.google.gwt.user.User'/>
 
-  <!-- Inherit the default GWT style sheet.  You can change       -->
-  <!-- the theme of your GWT application by uncommenting          -->
-  <!-- any one of the following lines.                            -->
-  <inherits name='com.google.gwt.user.theme.standard.Standard'/>
-  <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
-  <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+  <inherits name='com.google.gwt.user.User' />
 
-  <!-- Other module inherits                                      -->
+  <!-- This will give us shorter obfuscated CSS class names. We guarantee
+       that there will be no class names that will conflict with /M.+/ -->
+  <set-configuration-property name="CssResource.obfuscationPrefix" value="M" />
 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='eu.gaetan.grigis.mail.client.JMailJetable'/>
-
-  <!-- Specify the paths for translatable code                    -->
-  <source path='client'/>
-  <source path='shared'/>
+  <entry-point class='eu.gaetan.grigis.mail.client.gui.Mail' />
 
 </module>

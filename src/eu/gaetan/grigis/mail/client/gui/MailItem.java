@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.gwt.sample.mail.client;
+package eu.gaetan.grigis.mail.client.gui;
 
 /**
  * A simple structure containing the basic components of an email.

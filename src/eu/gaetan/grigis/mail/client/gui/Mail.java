@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.google.gwt.sample.mail.client;
+package eu.gaetan.grigis.mail.client.gui;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -48,7 +48,7 @@ public class Mail implements EntryPoint {
   @UiField TopPanel topPanel;
   @UiField MailList mailList;
   @UiField MailDetail mailDetail;
-  @UiField Shortcuts shortcuts;
+//  @UiField Shortcuts shortcuts;
 
   /**
    * This method constructs the application user interface by instantiating
