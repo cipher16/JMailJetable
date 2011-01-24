@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+<web-app>
+  <!-- Servlets -->
+  <servlet>
+	<servlet-name>mailhandler</servlet-name>
+	<servlet-class>eu.gaetan.grigis.mail.server.MailHandlerServlet</servlet-class>
+  </servlet>
+  <servlet>
+	<servlet-name>mailservicehandler</servlet-name>
+	<servlet-class>eu.gaetan.grigis.mail.server.MailServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mailservicehandler</servlet-name>
+    <url-pattern>/jmailjetable/mail</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>mailhandler</servlet-name>
+    <url-pattern>/_ah/mail/*</url-pattern>
+  </servlet-mapping>
+
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>JMailJetable.html</welcome-file>
+  </welcome-file-list>
+  <security-constraint>
+	<web-resource-collection>
+	  <web-resource-name>mail</web-resource-name>
+	  <url-pattern>/_ah/mail/*</url-pattern>
+	</web-resource-collection>
+	<auth-constraint>
+	  <role-name>admin</role-name>
+	</auth-constraint>
+  </security-constraint>
+</web-app>
