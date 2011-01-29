@@ -11,6 +11,6 @@ import eu.gaetan.grigis.mail.client.Mail;
  */
 @RemoteServiceRelativePath("mail")
 public interface MailService extends RemoteService {
-	ArrayList<Mail> getMails(String name) throws IllegalArgumentException;
-	void createUser(String name) throws AlreadyExistException;
+	ArrayList<Mail> getMails(String name);
+	void createUser(String name);
 }

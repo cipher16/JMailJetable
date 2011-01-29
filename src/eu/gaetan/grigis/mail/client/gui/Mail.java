@@ -15,6 +15,8 @@
  */
 package eu.gaetan.grigis.mail.client.gui;
 
+import java.util.ArrayList;
+
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -26,6 +28,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -35,7 +38,6 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import eu.gaetan.grigis.mail.client.AlreadyExistException;
 import eu.gaetan.grigis.mail.client.MailService;
 import eu.gaetan.grigis.mail.client.MailServiceAsync;
 
@@ -67,11 +69,17 @@ public class Mail implements EntryPoint {
    * controls and hooking up event handler.
    */
   public void onModuleLoad() {
-    
+	if(mailAdress==null)
+		mailAdress=com.google.gwt.user.client.Window.Location.getParameter("m");
     if(mailAdress==null)
     	displayHomePage();
     else
+    {
+    	mailAdress=mailAdress.replaceAll("[^-a-z0-9A-Z]*", "");
+    	//will create user if it doesn't exist when displaying page with parameter m
+    	createUser(mailAdress, false);
     	displayWebMail(mailAdress);
+    }
   }
   
   public void displayHomePage()
@@ -90,16 +98,7 @@ public class Mail implements EntryPoint {
 	    bMail.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				final MailServiceAsync mailService = GWT.create(MailService.class);
-				try {
-					mailService.createUser(txMail.getText(), new AsyncCallback<Void>() {
-						@Override public void onSuccess(Void result) {
-							mailAdress = txMail.getText();
-							displayWebMail(mailAdress);
-						}
-						@Override public void onFailure(Throwable caught) {caught.printStackTrace();}
-					});
-				} catch (AlreadyExistException e) {}
+				createUser(txMail.getText().replaceAll("[^-a-z0-9A-Z]*", ""), true);
 			}
 		});
   }
@@ -134,6 +133,7 @@ public class Mail implements EntryPoint {
 	    RootLayoutPanel root = RootLayoutPanel.get();
 	    root.clear();//remove everything before
 	    root.add(outer);
+	    reloadMails();
   }
   
   protected void setMail(String m)
@@ -141,5 +141,37 @@ public class Mail implements EntryPoint {
 	  mailAdress=m;
 	  topPanel.setMail(m);
 	  mailDetail.setMail(m);
+  }
+  
+  private void createUser(String name,final boolean changeView)
+  {
+	  mailAdress = name;
+	  final MailServiceAsync mailService = GWT.create(MailService.class);
+		mailService.createUser(mailAdress, new AsyncCallback<Void>() {
+			@Override public void onSuccess(Void result) {
+				if(changeView)
+					displayWebMail(mailAdress);
+			}
+			@Override public void onFailure(Throwable caught) {caught.printStackTrace();}
+		});
+  }
+  private void reloadMails()
+  {
+	// Schedule the timer to run once in 5 seconds.
+	Timer t = new Timer() {
+		public void run() {
+			final MailServiceAsync mailService = GWT.create(MailService.class);
+			mailService.getMails(mailAdress, new AsyncCallback<ArrayList<eu.gaetan.grigis.mail.client.Mail>>() {
+				@Override
+				public void onSuccess(ArrayList<eu.gaetan.grigis.mail.client.Mail> result) {
+					System.out.println("recuperation de : "+(result!=null?result.size():-1));
+					MailItems.addMails(result);
+		    		mailList.update();
+				}@Override public void onFailure(Throwable caught) {}
+			});
+			this.schedule(5000);
+		}
+	};
+	t.schedule(5000);
   }
 }

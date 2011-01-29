@@ -5,7 +5,6 @@ import java.util.List;
 import javax.jdo.PersistenceManager;
 import javax.jdo.Query;
 
-import eu.gaetan.grigis.mail.client.AlreadyExistException;
 import eu.gaetan.grigis.mail.server.PMF;
 import eu.gaetan.grigis.mail.client.User;
 
@@ -36,9 +35,6 @@ public class Users {
 		try{
 			if(!isMailRecipientValid(u.getName()))
 				pm.makePersistent(u);
-			else throw new AlreadyExistException();
-		}catch(Exception e){
-			
 		}finally{pm.close();}
 		return ret;
 	}

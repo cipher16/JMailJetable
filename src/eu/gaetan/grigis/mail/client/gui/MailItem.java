@@ -51,4 +51,21 @@ public final class MailItem {
     this.subject = subject;
     this.body = body;
   }
+  
+  @Override
+  public boolean equals(Object m)
+  {
+	  MailItem mi=(MailItem)m;
+	  boolean ret=false;
+	  if(m==this)
+		  return true;
+	  if(
+			  this.sender.equals(mi.sender)&&
+			  this.email.equals(mi.email)&&
+			  this.subject.equals(mi.subject) &&
+			  this.body.equals(mi.body)
+	  )
+		  return true;
+	  return ret;
+  }
 }

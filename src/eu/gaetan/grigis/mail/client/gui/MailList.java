@@ -21,11 +21,16 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+
+import eu.gaetan.grigis.mail.client.MailService;
+import eu.gaetan.grigis.mail.client.MailServiceAsync;
 
 /**
  * A composite that displays a list of emails that can be selected.
@@ -169,8 +174,8 @@ public class MailList extends ResizeComposite {
     }
   }
 
-  private void update() {
-    // Update the older/newer buttons & label.
+  public void update() {
+	// Update the older/newer buttons & label.
     int count = MailItems.getMailItemCount();
     int max = startIndex + VISIBLE_EMAIL_COUNT;
     if (max > count) {
@@ -198,7 +203,7 @@ public class MailList extends ResizeComposite {
     }
 
     // Clear any remaining slots.
-    for (; i < VISIBLE_EMAIL_COUNT; ++i) {
+    for (; i < VISIBLE_EMAIL_COUNT&&i<table.getRowCount(); ++i) {
       table.removeRow(table.getRowCount() - 1);
     }
   }

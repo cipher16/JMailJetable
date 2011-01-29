@@ -111,22 +111,18 @@ public class JMailJetable implements EntryPoint {
 				sendButton.setEnabled(false);
 				textToServerLabel.setText(textToServer);
 				serverResponseLabel.setText("");
-				try {
-					mailService.createUser(textToServer, new AsyncCallback<Void>() {
-						
-						@Override
-						public void onSuccess(Void result) {
-						}
-						
-						@Override
-						public void onFailure(Throwable caught) {
-							// TODO Auto-generated method stub
-							caught.printStackTrace();
-						}
-					});
-				} catch (AlreadyExistException e) {
-					e.printStackTrace();
-				}
+				mailService.createUser(textToServer, new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						caught.printStackTrace();
+					}
+				});
 			}
 		}
 
