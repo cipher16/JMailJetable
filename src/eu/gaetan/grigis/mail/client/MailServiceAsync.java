@@ -2,7 +2,7 @@ package eu.gaetan.grigis.mail.client;
 
 import java.util.ArrayList;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import eu.gaetan.grigis.mail.shared.Mail;
+import eu.gaetan.grigis.mail.client.Mail;
 
 /**
  * The async counterpart of <code>MailService</code>.

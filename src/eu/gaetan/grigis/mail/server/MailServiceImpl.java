@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import eu.gaetan.grigis.mail.client.AlreadyExistException;
 import eu.gaetan.grigis.mail.client.MailService;
-import eu.gaetan.grigis.mail.shared.Mail;
-import eu.gaetan.grigis.mail.shared.User;
+import eu.gaetan.grigis.mail.client.Mail;
+import eu.gaetan.grigis.mail.client.User;
 import eu.gaetan.grigis.mail.server.Users;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

@@ -19,14 +19,25 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.CssResource.NotStrict;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+
+import eu.gaetan.grigis.mail.client.AlreadyExistException;
+import eu.gaetan.grigis.mail.client.MailService;
+import eu.gaetan.grigis.mail.client.MailServiceAsync;
 
 /**
  * This application demonstrates how to construct a relatively complex user
@@ -49,39 +60,86 @@ public class Mail implements EntryPoint {
   @UiField MailList mailList;
   @UiField MailDetail mailDetail;
 //  @UiField Shortcuts shortcuts;
+  String mailAdress;
 
   /**
    * This method constructs the application user interface by instantiating
    * controls and hooking up event handler.
    */
   public void onModuleLoad() {
-    // Inject global styles.
-    GWT.<GlobalResources>create(GlobalResources.class).css().ensureInjected();
+    
+    if(mailAdress==null)
+    	displayHomePage();
+    else
+    	displayWebMail(mailAdress);
+  }
+  
+  public void displayHomePage()
+  {
+	  	RootLayoutPanel root = RootLayoutPanel.get();
+		VerticalPanel vp=new VerticalPanel();
+	    	HorizontalPanel hp=new HorizontalPanel();
+	    	final TextBox txMail = new TextBox();
+	    	Button bMail = new Button("Create");
+	    	hp.add(txMail);
+	    	hp.add(bMail);
+		vp.add(hp);
+		root.clear();
+		root.add(vp);
+	    
+	    bMail.addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				final MailServiceAsync mailService = GWT.create(MailService.class);
+				try {
+					mailService.createUser(txMail.getText(), new AsyncCallback<Void>() {
+						@Override public void onSuccess(Void result) {
+							mailAdress = txMail.getText();
+							displayWebMail(mailAdress);
+						}
+						@Override public void onFailure(Throwable caught) {caught.printStackTrace();}
+					});
+				} catch (AlreadyExistException e) {}
+			}
+		});
+  }
+  
+  public void displayWebMail(String mail)
+  {
+	// Inject global styles.
+	    GWT.<GlobalResources>create(GlobalResources.class).css().ensureInjected();
+	    // Create the UI defined in Mail.ui.xml.
+	    DockLayoutPanel outer = binder.createAndBindUi(this);
+	    setMail(mail);
+	    // Get rid of scrollbars, and clear out the window's built-in margin,
+	    // because we want to take advantage of the entire client area.
+	    Window.enableScrolling(false);
+	    Window.setMargin("0px");
 
-    // Create the UI defined in Mail.ui.xml.
-    DockLayoutPanel outer = binder.createAndBindUi(this);
+	    // Special-case stuff to make topPanel overhang a bit.
+	    Element topElem = outer.getWidgetContainerElement(topPanel);
+	    topElem.getStyle().setZIndex(2);
+	    topElem.getStyle().setOverflow(Overflow.VISIBLE);
 
-    // Get rid of scrollbars, and clear out the window's built-in margin,
-    // because we want to take advantage of the entire client area.
-    Window.enableScrolling(false);
-    Window.setMargin("0px");
+	    // Listen for item selection, displaying the currently-selected item in
+	    // the detail area.
+	    mailList.setListener(new MailList.Listener() {
+	      public void onItemSelected(MailItem item) {
+	        mailDetail.setItem(item);
+	      }
+	    });
 
-    // Special-case stuff to make topPanel overhang a bit.
-    Element topElem = outer.getWidgetContainerElement(topPanel);
-    topElem.getStyle().setZIndex(2);
-    topElem.getStyle().setOverflow(Overflow.VISIBLE);
-
-    // Listen for item selection, displaying the currently-selected item in
-    // the detail area.
-    mailList.setListener(new MailList.Listener() {
-      public void onItemSelected(MailItem item) {
-        mailDetail.setItem(item);
-      }
-    });
-
-    // Add the outer panel to the RootLayoutPanel, so that it will be
-    // displayed.
-    RootLayoutPanel root = RootLayoutPanel.get();
-    root.add(outer);
+	    // Add the outer panel to the RootLayoutPanel, so that it will be
+	    // displayed.
+	    RootLayoutPanel root = RootLayoutPanel.get();
+	    root.clear();//remove everything before
+	    root.add(outer);
+  }
+  
+  protected void setMail(String m)
+  {
+	  mailAdress=m;
+	  topPanel.setMail(m);
+	  mailDetail.setMail(m);
   }
 }

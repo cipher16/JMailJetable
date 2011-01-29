@@ -35,15 +35,21 @@ public class MailDetail extends ResizeComposite {
   @UiField Element sender;
   @UiField Element recipient;
   @UiField HTML body;
+  String mailAdress;
 
   public MailDetail() {
     initWidget(binder.createAndBindUi(this));
+  }
+  
+  public void setMail(String m)
+  {
+	  mailAdress=m;
   }
 
   public void setItem(MailItem item) {
     subject.setInnerText(item.subject);
     sender.setInnerText(item.sender);
-    recipient.setInnerHTML("foo@example.com");
+    recipient.setInnerHTML(mailAdress);
 
     // WARNING: For the purposes of this demo, we're using HTML directly, on
     // the assumption that the "server" would have appropriately scrubbed the

@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties; 
 import javax.mail.Address;
 
-import eu.gaetan.grigis.mail.shared.Mail;
+import eu.gaetan.grigis.mail.client.Mail;
 import eu.gaetan.grigis.mail.server.Users;
 import eu.gaetan.grigis.mail.server.PMF;
 
@@ -58,6 +58,7 @@ public class MailHandlerServlet extends HttpServlet {
     }
     protected String getHtmlContent(Object o) throws MessagingException, IOException
     {
+    	//TODO: Support several type and file download
     	String ret="";
     	if (o instanceof String) {
     		return (String) o;

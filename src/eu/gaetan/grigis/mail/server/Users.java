@@ -7,7 +7,7 @@ import javax.jdo.Query;
 
 import eu.gaetan.grigis.mail.client.AlreadyExistException;
 import eu.gaetan.grigis.mail.server.PMF;
-import eu.gaetan.grigis.mail.shared.User;
+import eu.gaetan.grigis.mail.client.User;
 
 public class Users {
 	public static boolean isMailRecipientValid(String rec)

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import eu.gaetan.grigis.mail.shared.Mail;
+import eu.gaetan.grigis.mail.client.Mail;
 
 /**
  * The client side stub for the RPC service.

@@ -36,10 +36,17 @@ public class TopPanel extends Composite {
   @UiField Anchor signOutLink;
   @UiField Anchor aboutLink;
 
+  @UiField Anchor mailAdress;
+  
   public TopPanel() {
     initWidget(binder.createAndBindUi(this));
   }
 
+  public void setMail(String m)
+  {
+	  mailAdress.setText(m);
+  }
+  
   @UiHandler("aboutLink")
   void onAboutClicked(ClickEvent event) {
     // When the 'About' item is selected, show the AboutDialog.
