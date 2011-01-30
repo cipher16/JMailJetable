@@ -43,7 +43,7 @@
 
     <div class="{style.statusDiv}">
       <div>
-        <b>Welcome back, foo@example.com</b>
+        <b>Welcome <g:Anchor ui:field="mailAdress"></g:Anchor></b>
       </div>
 
       <div class='{style.linksDiv}'>
