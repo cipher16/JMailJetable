@@ -23,6 +23,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -35,9 +36,8 @@ public class TopPanel extends Composite {
 
   @UiField Anchor signOutLink;
   @UiField Anchor aboutLink;
-
   @UiField Anchor mailAdress;
-  
+  private Mail parent;
   public TopPanel() {
     initWidget(binder.createAndBindUi(this));
   }
@@ -45,6 +45,10 @@ public class TopPanel extends Composite {
   public void setMail(String m)
   {
 	  mailAdress.setText(m);
+  }
+  public void setParent(Mail m)
+  {
+	  parent=m;
   }
   
   @UiHandler("aboutLink")
@@ -59,6 +63,6 @@ public class TopPanel extends Composite {
 
   @UiHandler("signOutLink")
   void onSignOutClicked(ClickEvent event) {
-    Window.alert("If this were implemented, you would be signed out now.");
+	  parent.displayHomePage();
   }
 }

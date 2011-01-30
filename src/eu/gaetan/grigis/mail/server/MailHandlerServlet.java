@@ -16,6 +16,7 @@ import java.util.Properties;
 import javax.mail.Address;
 
 import eu.gaetan.grigis.mail.client.Mail;
+import eu.gaetan.grigis.mail.client.lib.Cleanup;
 import eu.gaetan.grigis.mail.server.Users;
 import eu.gaetan.grigis.mail.server.PMF;
 
@@ -31,7 +32,7 @@ public class MailHandlerServlet extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
 			message = new MimeMessage(session, req.getInputStream());
-			String to=getEmailString(message.getRecipients(Message.RecipientType.TO));
+			String to=getEmailString(message.getRecipients(Message.RecipientType.TO)).replaceAll(Cleanup.DOMAIN_ADRESS_CLEANUP, "");
 			if(Users.isMailRecipientValid(to))
 			{
 				Mail m=new Mail(
@@ -43,7 +44,7 @@ public class MailHandlerServlet extends HttpServlet {
 				pm.makePersistent(m);
 			}
 			else
-				System.out.println("Attempting to send a mail to an unknown or expired recipient");
+				System.out.println("Attempting to send a mail to an unknown or expired recipient : "+to);
 		}catch(Exception ex){
 			System.out.println("Erreur lors de la sauvegarde!!");
 			ex.printStackTrace();

@@ -33,13 +33,16 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import eu.gaetan.grigis.mail.client.MailService;
 import eu.gaetan.grigis.mail.client.MailServiceAsync;
+import eu.gaetan.grigis.mail.client.lib.Cleanup;
 
 /**
  * This application demonstrates how to construct a relatively complex user
@@ -75,7 +78,7 @@ public class Mail implements EntryPoint {
     	displayHomePage();
     else
     {
-    	mailAdress=mailAdress.replaceAll("[^-a-z0-9A-Z]*", "");
+    	mailAdress=mailAdress.replaceAll(Cleanup.MAIL_ADRESS_CLEANUP, "");
     	//will create user if it doesn't exist when displaying page with parameter m
     	createUser(mailAdress, false);
     	displayWebMail(mailAdress);
@@ -84,23 +87,11 @@ public class Mail implements EntryPoint {
   
   public void displayHomePage()
   {
-	  	RootLayoutPanel root = RootLayoutPanel.get();
-		VerticalPanel vp=new VerticalPanel();
-	    	HorizontalPanel hp=new HorizontalPanel();
-	    	final TextBox txMail = new TextBox();
-	    	Button bMail = new Button("Create");
-	    	hp.add(txMail);
-	    	hp.add(bMail);
-		vp.add(hp);
-		root.clear();
-		root.add(vp);
-	    
-	    bMail.addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				createUser(txMail.getText().replaceAll("[^-a-z0-9A-Z]*", ""), true);
-			}
-		});
+	  	Home.Binder bin=GWT.create(Home.Binder.class);
+	  	HTMLPanel outer = (HTMLPanel) bin.createAndBindUi(new Home(this));
+		RootLayoutPanel root = RootLayoutPanel.get();
+		root.clear();//remove everything before
+		root.add(outer);
   }
   
   public void displayWebMail(String mail)
@@ -140,10 +131,11 @@ public class Mail implements EntryPoint {
   {
 	  mailAdress=m;
 	  topPanel.setMail(m);
+	  topPanel.setParent(this);
 	  mailDetail.setMail(m);
   }
   
-  private void createUser(String name,final boolean changeView)
+  public void createUser(String name,final boolean changeView)
   {
 	  mailAdress = name;
 	  final MailServiceAsync mailService = GWT.create(MailService.class);
@@ -164,7 +156,6 @@ public class Mail implements EntryPoint {
 			mailService.getMails(mailAdress, new AsyncCallback<ArrayList<eu.gaetan.grigis.mail.client.Mail>>() {
 				@Override
 				public void onSuccess(ArrayList<eu.gaetan.grigis.mail.client.Mail> result) {
-					System.out.println("recuperation de : "+(result!=null?result.size():-1));
 					MailItems.addMails(result);
 		    		mailList.update();
 				}@Override public void onFailure(Throwable caught) {}

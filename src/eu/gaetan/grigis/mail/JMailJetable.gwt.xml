@@ -8,5 +8,4 @@
   <set-configuration-property name="CssResource.obfuscationPrefix" value="M" />
 
   <entry-point class='eu.gaetan.grigis.mail.client.gui.Mail' />
-
 </module>
