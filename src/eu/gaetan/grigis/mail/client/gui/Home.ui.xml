@@ -5,6 +5,12 @@
   <ui:image field='logo' src='gwt-logo.png'/>
 
   <ui:style>
+  html {
+  	font-family: sans-serif;
+  }
+  .page {
+  	color:#FFF;	
+  }
   .panel {
     padding: 10px;
     margin: 0 auto;
@@ -13,6 +19,12 @@
 
   .aboutText {
     text-align: left;
+    background-color:#3C8DC5;
+    border-radius: 15px 5px 0em 0em;
+  }
+  .aboutText > div {
+  	padding: 15px;	
+    width:50%;
   }
 
   @sprite .logo {
@@ -22,24 +34,76 @@
   }
 
   .buttons {
-    text-align: right;
+  	padding: 20px;
+    text-align: center;
+    background-color: #FFF;
+    color: #3C8DC5;
+  }
+  h1 {
+  		text-align:center;
+  		color:#3C8DC5;
+  }
+  .footer {
+  	padding:20px;
+    border-radius: 0px 0px 15px 5px;	
+    background-color:#3C8DC5;
+    font-weight: bolder;
+    text-align:center;
+    font-style: italic;
+  }
+  .moreinfo {
+	background-color:#6FB7E9;
+    text-align: left;
+  }
+  
+  .moreinfo > div {
+  	padding: 15px;	
+    width:50%;
+  }
+  
+  .moreinfo a {
+  	color:#FFF;
+  	font-weight: bolder;
+  	font-style: italic;
   }
   </ui:style>
 
   <g:HTMLPanel styleName='{style.panel}'>
-    <div class='{style.logo}'/>
-
-    <div class='{style.aboutText}'>
-    This sample application demonstrates the
-    construction of a complex user interface using GWT's built-in
-    widgets. Have a look at the code to see how easy it is to build
-    your own apps!
-    </div>
-
-    <div class='{style.buttons}'>
-      <g:TextBox text='mail' ui:field='mailAdress'/>
-      @mail-jetable.appspotmail.com
-      <g:Button text='Create or Retrieve' ui:field='createAdress' />
+<!--Juste pour garder la syntaxe    <div class='{style.logo}'/>-->
+	
+	<div class="{style.page}">
+	   	<h1>TrashMail - MailJetable</h1>
+	    <div class='{style.aboutText}'>
+	    	<div style="float:right;">
+	    		This service provide you a mail adress that you can use to register some untrusted services (forums, unknown websites asking for registration, ...)
+	    	</div>
+	    	<div>
+	    		Ce service vous fournit une adresse mail que vous pouvez utiliser pour utiliser des services dont vous ne connaissez pas les intentions (forums, sites demandant une authentification, ...)
+	    	</div>
+	    	<span style="clear:both;"></span>
+	    </div>
+	
+	    <div class='{style.buttons}'>
+	      <g:TextBox text='mail' ui:field='mailAdress'/>
+	      @mail-jetable.appspotmail.com
+	      <g:Button text='Create or Retrieve' ui:field='createAdress' />
+	    </div>
+	    
+	    <div class="{style.moreinfo}">
+	    	<div style="float:right;">
+	    		This service use <a href="http://gwt.google.com/samples/Mail/Mail.html">Google GWT's example</a> about webmail written in Java and can be forked here :
+	    		<a href="https://github.com/cipher16/JMailJetable">JMailJetable on GitHub</a>
+	    	</div>
+	    	<div>
+				Ce service utilise <a href="http://gwt.google.com/samples/Mail/Mail.html">l'exemple de google</a> sur les webmails écrit en java, et peut être forké ici :
+				<a href="https://github.com/cipher16/JMailJetable">JMailJetable sur GitHub</a>
+	    	</div>
+	    	<span style="clear:both;"></span>
+	    </div>
+	    
+	    <div class="{style.footer}">
+	    	JMailJetable By LoupZeur
+	    </div>
     </div>
   </g:HTMLPanel>
 </ui:UiBinder>
