@@ -9,7 +9,7 @@ import javax.jdo.Query;
 import eu.gaetan.grigis.mail.client.MailService;
 import eu.gaetan.grigis.mail.client.Mail;
 import eu.gaetan.grigis.mail.client.User;
-import eu.gaetan.grigis.mail.client.lib.Cleanup;
+import eu.gaetan.grigis.mail.client.lib.Config;
 import eu.gaetan.grigis.mail.server.Users;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -48,7 +48,7 @@ public class MailServiceImpl extends RemoteServiceServlet implements MailService
 
 	@Override
 	public void createUser(String name) {
-		User u = new User(name.replaceAll(Cleanup.MAIL_ADRESS_CLEANUP, ""));
+		User u = new User(name.replaceAll(Config.MAIL_ADRESS_CLEANUP, ""));
 		Users.save(u);
 	}
 }

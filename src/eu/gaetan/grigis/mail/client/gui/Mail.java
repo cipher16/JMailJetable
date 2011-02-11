@@ -38,11 +38,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
-
 import eu.gaetan.grigis.mail.client.MailService;
 import eu.gaetan.grigis.mail.client.MailServiceAsync;
-import eu.gaetan.grigis.mail.client.lib.Cleanup;
+import eu.gaetan.grigis.mail.client.lib.Config;
 
 /**
  * This application demonstrates how to construct a relatively complex user
@@ -78,7 +76,7 @@ public class Mail implements EntryPoint {
     	displayHomePage();
     else
     {
-    	mailAdress=mailAdress.replaceAll(Cleanup.MAIL_ADRESS_CLEANUP, "");
+    	mailAdress=mailAdress.replaceAll(Config.MAIL_ADRESS_CLEANUP, "");
     	//will create user if it doesn't exist when displaying page with parameter m
     	createUser(mailAdress, false);
     	displayWebMail(mailAdress);
@@ -87,8 +85,10 @@ public class Mail implements EntryPoint {
   
   public void displayHomePage()
   {
+	  	Home h = new Home(this);
 	  	Home.Binder bin=GWT.create(Home.Binder.class);
-	  	HTMLPanel outer = (HTMLPanel) bin.createAndBindUi(new Home(this));
+	  	HTMLPanel outer = (HTMLPanel) bin.createAndBindUi(h);
+	  	h.setMailDomain();
 		RootLayoutPanel root = RootLayoutPanel.get();
 		root.clear();//remove everything before
 		root.add(outer);

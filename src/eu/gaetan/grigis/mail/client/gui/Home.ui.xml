@@ -84,8 +84,7 @@
 	    </div>
 	
 	    <div class='{style.buttons}'>
-	      <g:TextBox text='mail' ui:field='mailAdress'/>
-	      @mail-jetable.appspotmail.com
+	      <g:TextBox text='mail' ui:field='mailAdress'/>@<g:Anchor ui:field="mailDomain" />
 	      <g:Button text='Create or Retrieve' ui:field='createAdress' />
 	    </div>
 	    

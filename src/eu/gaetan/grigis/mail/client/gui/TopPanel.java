@@ -24,7 +24,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+
+import eu.gaetan.grigis.mail.client.lib.Config;
 
 /**
  * The top panel, which contains the 'welcome' message and various links.
@@ -37,9 +40,11 @@ public class TopPanel extends Composite {
   @UiField Anchor signOutLink;
   @UiField Anchor aboutLink;
   @UiField Anchor mailAdress;
+  @UiField Anchor mailDomain;
   private Mail parent;
   public TopPanel() {
     initWidget(binder.createAndBindUi(this));
+    mailDomain.setText(Config.MAIL_DOMAIN);
   }
 
   public void setMail(String m)

@@ -16,7 +16,7 @@ import java.util.Properties;
 import javax.mail.Address;
 
 import eu.gaetan.grigis.mail.client.Mail;
-import eu.gaetan.grigis.mail.client.lib.Cleanup;
+import eu.gaetan.grigis.mail.client.lib.Config;
 import eu.gaetan.grigis.mail.server.Users;
 import eu.gaetan.grigis.mail.server.PMF;
 
@@ -32,7 +32,7 @@ public class MailHandlerServlet extends HttpServlet {
 		PersistenceManager pm = PMF.get().getPersistenceManager();
 		try{
 			message = new MimeMessage(session, req.getInputStream());
-			String to=getEmailString(message.getRecipients(Message.RecipientType.TO)).replaceAll(Cleanup.DOMAIN_ADRESS_CLEANUP, "");
+			String to=getEmailString(message.getRecipients(Message.RecipientType.TO)).replaceAll(Config.DOMAIN_ADRESS_CLEANUP, "");
 			if(Users.isMailRecipientValid(to))
 			{
 				Mail m=new Mail(
